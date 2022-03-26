@@ -12,8 +12,7 @@ class NetworkManager {
     func request<T: Decodable>(
         target: NetworkAPI,
         completion: @escaping (Result<T, Error>) -> ()) {
-            let url = target.urlComponent!.url!
-            let request = URLRequest(url: url )
+            let request = target.urlRequest
             
             let task = URLSession.shared.dataTask(with: request) { (data,_,error) in
                 

@@ -8,5 +8,14 @@
 import Foundation
 
 enum NetworkAPI {
-    case dummy
+    enum getRequest {
+        case getSomething
+    }
+    
+    enum postRequest {
+        case auth
+    }
+    
+    case post(postPath:postRequest)
+    case get(getPath:getRequest)
 }

@@ -11,22 +11,57 @@ extension NetworkAPI {
     private var rootLink:String {
         return ""
     }
-    public var urlComponent:URLComponents? {
+    private var urlComponent:URLComponents? {
         var component = URLComponents(string: "\(self.rootLink)/\(self.path)")
         component?.queryItems = self.queryItems
         return component
     }
     
+    public var urlRequest:URLRequest {
+        var req = URLRequest(url: self.urlComponent!.url!)
+        switch self {
+        case .post(let postPath):
+            req.httpMethod = "POST"
+            switch postPath {
+            case .auth:
+                req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            }
+        case .get(let getPath):
+            req.httpMethod = "GET"
+            switch getPath {
+            case .getSomething :
+                print("something")
+            }
+        }
+        return req
+    }
+    
     private var queryItems:[URLQueryItem] {
         switch self {
-        case .dummy:
-            return []
+        case .post(let postPath):
+            switch postPath {
+            case .auth:
+                return []
+            }
+        case .get(let getPath):
+            switch getPath {
+            case .getSomething : return []
+            }
         }
     }
     
     private var path:String {
         switch self {
-        case .dummy : return ""
+        case .post(let postPath):
+            switch postPath {
+            case .auth:
+                return ""
+            }
+        case .get(let getPath):
+            switch getPath {
+            case .getSomething :
+                return ""
+            }
         }
     }
     
